@@ -174,7 +174,7 @@ public class Main extends Activity {
 		    //find what to copy
 			File tmobarchive=new File("/data/data/com.carrieriq.tmobile/app_iq_archive/archive.img");
 			boolean tmobarchvepresent = tmobarchive.exists();	
-			File iqagentarchive=new File("/data/data/com.carrieriq.iqagent/app_iq_archive/archive.img");
+			File iqagentarchive=new File("/data/data/com.carrieriq.iqagent/iq_archive/archive.img");
 			boolean iqagentarchivepresent = iqagentarchive.exists();	
 			File evoprofile=new File("/system/etc/iqprofile.pro");
 			boolean evoprofilepresent = evoprofile.exists();	
@@ -186,7 +186,7 @@ public class Main extends Activity {
 				FileTools.doStandardCommand("toolbox cat /system/etc/iqprofile.pro >/sdcard/IQTool_Sprint_Evo_System.pro");	
 			}
 			if(iqagentarchivepresent) {
-				FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.iqagent/app_iq_archive/archive.img >/sdcard/IQTool_CIQ_Archive.img");
+				FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.iqagent/iq_archive/archive.img >/sdcard/IQTool_CIQ_Archive.img");
 			}
 			if(tmobarchvepresent) {
 				FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_Tmo_CIQ_Archive.img");
@@ -287,7 +287,7 @@ private class scanProfiles extends AsyncTask<String,String,String>{
 			} else { output.append("\nNo Root Cannot Search\n"); };
 			
 			//IQAgent Search (no root)
-			File iqarchive=new File("/data/data/com.carrieriq.iqagent/app_iq_archive/archive.img");
+			File iqarchive=new File("/data/data/com.carrieriq.iqagent/iq_archive/archive.img");
 			boolean iqarchvepresent = iqarchive.exists();	
 			output.append("\n\n");
 			if (iqarchvepresent){
