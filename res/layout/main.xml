@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TableLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Step 1: Do you have CIQ?"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/checkForCIQ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check For CIQ" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Step 2: Find profiles"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/findProfiles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search For Profiles" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Step 3: Email to EFF"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WARNING: Archive.img files (only) may contain sensitive data. Do not send if you are uncomfortable!!!" android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/copyProfiles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Copy Profiles to SD" />
+
+    <Button
+        android:id="@+id/sendEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Email to EFF (READ WARNING)" />
+
+    <EditText
+        android:id="@+id/output"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:inputType="textMultiLine" android:textSize="11dp">
+
+        <requestFocus />
+    </EditText>
+
+</TableLayout>
