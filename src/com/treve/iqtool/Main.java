@@ -100,6 +100,9 @@ public class Main extends Activity {
 		 boolean appcacheciqexists = appcacheciq.exists();
 		 boolean appcacheiqserverexists = appcacheiqserver.exists();
 		 boolean pmemciqexists = pmemciq.exists();
+		 boolean pmemciq1exists = pmemciq1.exists();
+		 boolean pmemciq2exists = pmemciq2.exists();
+		 boolean pmemciq3exists = pmemciq3.exists();
 		 
 		 //Tmo
 		 boolean tmobiledataexists = tmobiledata.exists();
@@ -128,14 +131,17 @@ public class Main extends Activity {
 			if (libciqagentfileexists) {txtoutput.append(libciqagentfile.toString() + " exists!\n");};
 			if (libiq_service_tmobileexists) {txtoutput.append(libiq_service_tmobile.toString() + " exists!\n");};
 			if (IQtmobilereleasev11exists) {txtoutput.append(IQtmobilereleasev11.toString() + " exists!\n");};
+			if (appcacheiqserverexists) {txtoutput.append(appcacheiqserver.toString() + " exists!\n");};
+			if(FileTools.hasRootPermission()){if ((appcacheciqls != "Empty\n") && (appcacheciqexists)){txtoutput.append("/app-cache/ciq/" + appcacheciq.toString() + " exists!\n");};}
 
 			//possible profiles
 			if (iqprofileexists) {txtoutput.append(iqprofile.toString() + " exists! May be a stock profile...\n");};
 			if (tmobiledataexists) {txtoutput.append(tmobiledata.toString() + " exists.  Archive.img likely here!\n");};
-			if (pmemciqexists) {txtoutput.append(pmemciq.toString() + " exists.  Whats in these?\n");};
+			if (pmemciqexists) {txtoutput.append(pmemciq.toString() + " exists. Whats in these?\n");};;
+			if (pmemciq1exists) {txtoutput.append(pmemciq1.toString() + " exists.\n");};
+			if (pmemciq2exists) {txtoutput.append(pmemciq2.toString() + " exists.\n");};
+			if (pmemciq3exists) {txtoutput.append(pmemciq3.toString() + " exists.\n");};
 			
-			if (appcacheiqserverexists) {txtoutput.append(appcacheiqserver.toString() + " exists!\n");};
-			if(FileTools.hasRootPermission()){if ((appcacheciqls != "Empty\n") && (appcacheciqexists)){txtoutput.append("/app-cache/ciq/" + appcacheciq.toString() + " exists!\n");};}
 		} else {txtoutput.setText("\nCIQ not found\n");}
 	}});
 		
@@ -236,7 +242,7 @@ private class scanProfiles extends AsyncTask<String,String,String>{
 	EditText txtoutput = (EditText) findViewById(R.id.output);
 	
     protected void onPreExecute() {
-        Dialog.setMessage("Scanning...");
+        Dialog.setMessage("Scanning... If rooted this may take awhile");
         Dialog.show();
     }
 
