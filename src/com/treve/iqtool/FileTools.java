@@ -12,37 +12,9 @@ import android.widget.Toast;
 
 public class FileTools extends Main {     
 
-public void copyBusybox() {
-/* Copy Busybox  */    
-	   FileOutputStream outputStream = null;
-	   InputStream inputStream = null;
-	try {
-		outputStream = openFileOutput("busybox", Context.MODE_WORLD_WRITEABLE);
-         inputStream = getAssets().open("busybox");
-	} catch (FileNotFoundException e1) {
-		Toast.makeText(getBaseContext(), "Error copying busybox out of apk (this is not good)",Toast.LENGTH_SHORT).show();
-	} catch (Exception e) {
-		Toast.makeText(getBaseContext(), "Error copying busybox out of apk (this is not good)",Toast.LENGTH_SHORT).show();
-	}
 
-			try {
-         // Copy data
-         byte[] buffer = new byte[8192];
-         int length;
-         while ( (length=inputStream.read(buffer)) > 0) {
-             outputStream.write(buffer, 0, length);
-         }
-         // Close the streams
-         inputStream.close();
-         outputStream.flush();
-         outputStream.close();
-         
-} catch (FileNotFoundException e) {
-	Toast.makeText(getBaseContext(), "Error copying busybox",Toast.LENGTH_SHORT).show();
-} catch (Exception e) {
-	Toast.makeText(getBaseContext(), "Error copying busybox",Toast.LENGTH_SHORT).show();
-} 
-}
+
+
 
 
 public static String doRootCommand(String string) {

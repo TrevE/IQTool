@@ -1,8 +1,13 @@
 package com.treve.iqtool;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -144,7 +149,13 @@ public class Main extends Activity {
 			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "IQIQ Profile");
 			
 			//TODO: Fix attachments to work for profiles
-			sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_CarrierIQ_Archive.img"));
+
+			File tmobarchive=new File("/sdcard/IQTool_CarrierIQ_Archive.img");
+			boolean tmobarchvepresent = tmobarchive.exists();	
+			if(tmobarchvepresent) {
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_CarrierIQ_Archive.img"));
+			} 
+			
 			sendIntent.putExtra(Intent.EXTRA_TEXT, txtoutput.getText().toString()); 
 			startActivity(Intent.createChooser(sendIntent, "Email:"));
 		}});
@@ -155,14 +166,26 @@ public class Main extends Activity {
 		public void onClick(View view){
 			EditText txtoutput = (EditText) findViewById(R.id.output);
 			
-			//TODO: use real copy method & get profile from find result
-			txtoutput.setText(FileTools.doStandardCommand("busybox cp /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img /sdcard/IQTool_CarrierIQ_Archive.img"));
+			File tmobarchive=new File("/data/data/com.carrieriq.tmobile/app_iq_archive/archive.img");
+			boolean tmobarchvepresent = tmobarchive.exists();	
+			if(tmobarchvepresent) {
+				
+				//why is there no cp in toolbox :|
+				txtoutput.append(FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_CarrierIQ_Archive.img"));
+				
+				//check file made it
+				File sdtmobarchive=new File("/sdcard/IQTool_CarrierIQ_Archive.img");
+				boolean sdtmobarchvepresent = sdtmobarchive.exists();	
+				if(sdtmobarchvepresent) {Toast.makeText(getBaseContext(), "Tmobile archive copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
+				} else{ Toast.makeText(getBaseContext(), "Error Copying tmobile archive :(",Toast.LENGTH_LONG).show(); }
+					
+			} else {
+				Toast.makeText(getBaseContext(), "No tmobile archive found",Toast.LENGTH_LONG).show();
+			}
 		}});
 		
     }
 
-    
-    
     
 /** Setup Async task for scanning in background */
 public void scanProfiles() {
@@ -183,17 +206,24 @@ private class scanProfiles extends AsyncTask<String,String,String>{
 
     protected String doInBackground(String... arg0) {
 		try {
-			String prosearchreturn = FileTools.doRootCommand("busybox find / -iname \"*.pro\"");
-			String tmoarchivesearchreturn = FileTools.doRootCommand("ls -l /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img");
+			String prosearchreturn = null;
 			
-			if (prosearchreturn  != "Empty\n"){
-				output.append("\nProfile Search Results:\n");
-				output.append(prosearchreturn);
-			} else { output.append("\nProfile NOT Found\n");};
+			//Root Users Search
+			if(FileTools.hasRootPermission()){
+				prosearchreturn = FileTools.doRootCommand("busybox find / -iname \"*.pro\"");
+				if (prosearchreturn  != "Empty\n"){
+					output.append("\nProfile Search Results:\n");
+					output.append(prosearchreturn); }
+			} else { output.append("\nNo Root Cannot Search\n"); };
+			
+			
+			//Tmobile search (no root)
+			File tmobarchive=new File("/data/data/com.carrieriq.tmobile/app_iq_archive/archive.img");
+			boolean tmobarchvepresent = tmobarchive.exists();	
 			output.append("\n\n");
-			if (tmoarchivesearchreturn  != "Empty\n"){
+			if (tmobarchvepresent){
 				output.append("\nTmobile Archive Found:\n");
-				output.append(tmoarchivesearchreturn);
+				output.append(tmobarchive.toString());
 			} else { output.append("\nTmobile archive NOT Found\n");};
 			
 			
