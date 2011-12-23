@@ -164,7 +164,7 @@ public class Main extends Activity {
 			sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"iqiq@eff.org"}); 
 			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "IQIQ Profile");
 			
-			
+			//look for profiles user copied to attach
 			File tmobarchive=new File("/sdcard/IQTool_Tmo_CIQ_Archive.img");
 			boolean tmobarchvepresent = tmobarchive.exists();	
 			File sprintsysprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
@@ -212,7 +212,7 @@ public class Main extends Activity {
 			
 			if(sdtmobarchvepresent) {
 				Toast.makeText(getBaseContext(), "Tmobile archive copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
-				txtoutput.append("\narchive.img copied to\n/sdcard/IQTool_Tmo_CIQ_Archive.img\nThis could contain sensitive data, make sure to delete it later\nOnly send to EFF if you are comfortable with this!");
+				txtoutput.append("\narchive.img copied to\n/sdcard/IQTool_Tmo_CIQ_Archive.img\nThis archive could contain sensitive data, including location and call history, URLs, or text messages.\nDo not send it to EFF if there may be private information on this handset.");
 			}
 			if(sdevoprofilepresent){
 				Toast.makeText(getBaseContext(), "Evo Sprint system pro copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();

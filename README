@@ -4,12 +4,12 @@ Quick and dirty tool to assist in grabbing profiles.  Feel free to help out!
 
 Fourm: http://forum.xda-developers.com/showthread.php?p=20556152
 
-Instructions: (right now HTC Evo/Tmo is only really working for automatic attaching of emails -- will work for root or non root!)
+Instructions: (right now HTC Evo line & Tmobile is only really working for automatic attaching of emails -- will work for root or non root!)
 
 Click button 1.  Determine if you have CIQ.
 Click button 2 to search for profiles.
 Click button 3 to copy profile to sdcard (required to attach to email)
-Click button 4 to send email to EFF!  (be warned - archive.img MAY contain sensitive data.  EFF will always do its best to keep archive.img files confidential, but please DO NOT send them if there may be any private information on the handset you are working with)
+Click button 4 to send email to EFF!  (be warned - archive.img (only, profiles are not sensitive) MAY contain sensitive data.  This archive could contain sensitive data, including location and call history, URLs, or text messages.  Do not send it to EFF if there may be private information on this handset.)
 
 
 Now - Lets make this more robust :)

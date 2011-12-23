@@ -41,7 +41,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WARNING: Archive.img files (only) may contain sensitive data. Do not send if you are uncomfortable!!!" android:layout_gravity="center_horizontal"/>
+        android:text="WARNING: Archive.img files(not .pro files)could contain sensitive data, including location and call history, URLs, or text messages. Do not send it to EFF if there may be private information on this handset." android:layout_gravity="center_horizontal" android:textSize="13dp"/>
 
     <Button
         android:id="@+id/copyProfiles"
