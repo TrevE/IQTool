@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,6 +52,9 @@ public class Main extends Activity {
 		final File appcacheiqserver=new File("/app-cache/iqserver/");
 		final File appcacheciq=new File("/app-cache/ciq/");
 		final File pmemciq=new File("/dev/pmem_ciq/");
+		final File pmemciq1=new File("/dev/pmem_ciq1/");
+		final File pmemciq2=new File("/dev/pmem_ciq2/");
+		final File pmemciq3=new File("/dev/pmem_ciq3/");
 		 
 		 //TMOBO
 		final File libiq_service_tmobile=new File("/system/lib/libiq_service_tmobile_2.2.so");
@@ -59,7 +62,6 @@ public class Main extends Activity {
 		final File IQtmobilereleasev11=new File("/system/app/IQ-tmobile-release-v1.1.apk");
 
 		/** Check root */
-		//TODO: Make this do something
 		if(!FileTools.hasRootPermission()){
 			Toast.makeText(getBaseContext(), "Switching to non root mode....",Toast.LENGTH_LONG).show();
 		} else {
@@ -82,14 +84,18 @@ public class Main extends Activity {
 		public void onClick(View view){
 
 		 EditText txtoutput = (EditText) findViewById(R.id.output);
+		 
+		 //Sammy
+		 boolean iqmsdexists = iqmsdfile.exists();
+		 boolean libiqfileexists = libiqfile.exists();
+		 boolean libiqservicefileexists = libiqservicefile.exists();
+		 
+		 //HTC
 		 boolean iqprofileexists = iqprofile.exists();
 		 boolean iqfdexists = iqfdfile.exists();
 		 boolean iqdexists = iqdfile.exists();
-		 boolean iqmsdexists = iqmsdfile.exists();
 		 boolean libciqfileexists = libciqfile.exists();
 		 boolean libciqhtcfileexists = libciqhtcfile.exists();
-		 boolean libiqfileexists = libiqfile.exists();
-		 boolean libiqservicefileexists = libiqservicefile.exists();
 		 boolean libciqagentfileexists = libciqagentfile.exists();
 		 boolean HtcIQAgentfileexists = HtcIQAgentfile.exists();
 		 boolean HtcIQAgentodexfileexists = HtcIQAgentodexfile.exists();
@@ -98,14 +104,21 @@ public class Main extends Activity {
 		 String appcacheciqls = FileTools.doRootCommand("ls /app-cache/ciq/");
 		 boolean appcacheciqexists = appcacheciq.exists();
 		 boolean appcacheiqserverexists = appcacheiqserver.exists();
+		 boolean pmemciqexists = pmemciq.exists();
+		 
+		 //Tmo
 		 boolean tmobiledataexists = tmobiledata.exists();
 		 boolean libiq_service_tmobileexists = libiq_service_tmobile.exists();
 		 boolean IQtmobilereleasev11exists = IQtmobilereleasev11.exists();
 		 
-		 if ((iqprofileexists) || (tmobiledataexists) || (libiq_service_tmobileexists) || (IQtmobilereleasev11exists) || (iqfdexists) || (iqdexists) || (iqmsdexists) || (libciqfileexists) || (libciqhtcfileexists) || (libiqfileexists) || (libiqservicefileexists) || (libciqagentfileexists)
+		 txtoutput.setText("Phone Specs--\n");
+		 txtoutput.append("Phone Model: (ro.product.name): "+ FileTools.doStandardCommand("getprop ro.product.name"));
+		 txtoutput.append("CarrierID: (ro.cid): "+ FileTools.doStandardCommand("getprop ro.cid"));
+		 
+		 if ((iqprofileexists) || (tmobiledataexists) || (libiq_service_tmobileexists) || (IQtmobilereleasev11exists) || (iqfdexists) || (iqdexists) || (pmemciqexists) || (iqmsdexists) || (libciqfileexists) || (libciqhtcfileexists) || (libiqfileexists) || (libiqservicefileexists) || (libciqagentfileexists)
 				 || (HtcIQAgentfileexists) || (HtcIQAgentodexfileexists) || (IQRDfileexists) || (IQRDodexfileexists) || (appcacheiqserverexists))
 		 {
-			txtoutput.setText("CIQ FOUND! File List:\n ");
+			txtoutput.append("\nCIQ FOUND! File List--\n ");
 			if (HtcIQAgentfileexists) {txtoutput.append(HtcIQAgentfile.toString() + " exists!\n");};
 			if (HtcIQAgentodexfileexists) {txtoutput.append(HtcIQAgentodexfile.toString() + " exists!\n");};
 			if (IQRDfileexists) {txtoutput.append(IQRDfile.toString() + " exists!\n");};
@@ -118,14 +131,16 @@ public class Main extends Activity {
 			if (libiqfileexists) {txtoutput.append(libiqfile.toString() + " exists!\n");};
 			if (libiqservicefileexists) {txtoutput.append(libiqservicefile.toString() + " exists!\n");};
 			if (libciqagentfileexists) {txtoutput.append(libciqagentfile.toString() + " exists!\n");};
-			if (iqprofileexists) {txtoutput.append(iqprofile.toString() + " exists!\n");};
-			if (tmobiledataexists) {txtoutput.append(tmobiledata.toString() + " exists!\n");};
 			if (libiq_service_tmobileexists) {txtoutput.append(libiq_service_tmobile.toString() + " exists!\n");};
 			if (IQtmobilereleasev11exists) {txtoutput.append(IQtmobilereleasev11.toString() + " exists!\n");};
-	
+
+			//possible profiles
+			if (iqprofileexists) {txtoutput.append(iqprofile.toString() + " exists! May be a stock profile...\n");};
+			if (tmobiledataexists) {txtoutput.append(tmobiledata.toString() + " exists.  Archive.img likely here!\n");};
+			if (pmemciqexists) {txtoutput.append(pmemciq.toString() + " exists.  Whats in these?\n");};
+			
 			if (appcacheiqserverexists) {txtoutput.append(appcacheiqserver.toString() + " exists!\n");};
 			if(FileTools.hasRootPermission()){if ((appcacheciqls != "Empty\n") && (appcacheciqexists)){txtoutput.append("/app-cache/ciq/" + appcacheciq.toString() + " exists!\n");};}
-			txtoutput.append("\nCIQ Exists\n");
 		} else {txtoutput.setText("\nCIQ not found\n");}
 	}});
 		
@@ -148,13 +163,17 @@ public class Main extends Activity {
 			sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"iqiq@eff.org"}); 
 			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "IQIQ Profile");
 			
-			//TODO: Fix attachments to work for profiles
-
+			//TODO: Fix attachments to work for root users profiles
+	
+			//Attach Tmobile Archive.img
 			File tmobarchive=new File("/sdcard/IQTool_CarrierIQ_Archive.img");
 			boolean tmobarchvepresent = tmobarchive.exists();	
 			if(tmobarchvepresent) {
+				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_CarrierIQ_Archive.img"));
-			} 
+			} else {
+				Toast.makeText(getBaseContext(), "Attach a profile to this report or it is worthless to report!",Toast.LENGTH_LONG).show();
+			}
 			
 			sendIntent.putExtra(Intent.EXTRA_TEXT, txtoutput.getText().toString()); 
 			startActivity(Intent.createChooser(sendIntent, "Email:"));
@@ -171,13 +190,18 @@ public class Main extends Activity {
 			if(tmobarchvepresent) {
 				
 				//why is there no cp in toolbox :|
-				txtoutput.append(FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_CarrierIQ_Archive.img"));
+				FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_CarrierIQ_Archive.img");
 				
 				//check file made it
 				File sdtmobarchive=new File("/sdcard/IQTool_CarrierIQ_Archive.img");
 				boolean sdtmobarchvepresent = sdtmobarchive.exists();	
-				if(sdtmobarchvepresent) {Toast.makeText(getBaseContext(), "Tmobile archive copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
-				} else{ Toast.makeText(getBaseContext(), "Error Copying tmobile archive :(",Toast.LENGTH_LONG).show(); }
+				if(sdtmobarchvepresent) {
+					Toast.makeText(getBaseContext(), "Tmobile archive copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
+					txtoutput.append("\narchive.img copied to\n/sdcard/IQTool_CarrierIQ_Archive.img\nThis could contain sensitive data, make sure to delete it later\nOnly send to EFF if you are comfortable with this!");
+				} else{ 
+					Toast.makeText(getBaseContext(), "Error Copying tmobile archive :(",Toast.LENGTH_LONG).show(); 
+					txtoutput.append("\nError Copying Archive.img \nSource:\n/data/data/com.carrieriq.tmobile/app_iq_archive/archive.img\n\nDestination:\n/sdcard/IQTool_CarrierIQ_Archive.img");
+				}
 					
 			} else {
 				Toast.makeText(getBaseContext(), "No tmobile archive found",Toast.LENGTH_LONG).show();
@@ -212,7 +236,7 @@ private class scanProfiles extends AsyncTask<String,String,String>{
 			if(FileTools.hasRootPermission()){
 				prosearchreturn = FileTools.doRootCommand("busybox find / -iname \"*.pro\"");
 				if (prosearchreturn  != "Empty\n"){
-					output.append("\nProfile Search Results:\n");
+					output.append("\nProfile List.  You will need to manually attach anything found (ignore permission denied)\n");
 					output.append(prosearchreturn); }
 			} else { output.append("\nNo Root Cannot Search\n"); };
 			
