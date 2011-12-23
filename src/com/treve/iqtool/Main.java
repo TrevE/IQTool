@@ -37,7 +37,6 @@ public class Main extends Activity {
 		final File libiqservicefile=new File("/system/lib/libiq_service.so");
 		final File iqagentdata=new File("/data/data/com.carrieriq.iqagent/");
 		
-		
 		 //HTC
 		final File iqfdfile=new File("/system/bin/iqfd");
 		final File iqdfile=new File("/system/bin/iqd");
