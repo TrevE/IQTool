@@ -212,7 +212,7 @@ public class Main extends Activity {
 				txtoutput.append("\niqprofile.pro copied to\n/sdcard/IQTool_Sprint_Evo_System.pro\n");
 			}
 				
-			if ((!sdtmobarchvepresent) && (!sdevoprofilepresent) && (sdiqarchvepresent)){
+			if ((!sdtmobarchvepresent) && (!sdevoprofilepresent) && (!sdiqarchvepresent)){
 				Toast.makeText(getBaseContext(), "Error Copying files :(",Toast.LENGTH_LONG).show(); 
 				txtoutput.append("\nError Copying files.  Do not report this to EFF.");
 			}
