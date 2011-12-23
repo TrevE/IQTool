@@ -28,11 +28,16 @@ public class Main extends Activity {
     	Button copyprotosd = (Button) findViewById(R.id.copyProfiles);
     	
 		/** Setup known CIQ File Locations */
-		//SAMSUNG
+    	//LG Non-Embedded
+		//SAMSUNG Embedded 
+		final File iagentfile=new File("/system/app/IQAgent.apk");
+		final File iagentodexfile=new File("/system/app/IQAgent.odex");
 		final File iqmsdfile=new File("/system/bin/iqmsd");
 		final File libiqfile=new File("/system/lib/libiq_client.so");
 		final File libiqservicefile=new File("/system/lib/libiq_service.so");
-		 
+		final File iqagentdata=new File("/data/data/com.carrieriq.iqagent/");
+		
+		
 		 //HTC
 		final File iqfdfile=new File("/system/bin/iqfd");
 		final File iqdfile=new File("/system/bin/iqd");
@@ -79,8 +84,11 @@ public class Main extends Activity {
 		public void onClick(View view){
 
 		 EditText txtoutput = (EditText) findViewById(R.id.output);
-		 
-		 //Sammy
+
+	    	//LG Non-Embedded
+			//SAMSUNG Embedded 
+		 boolean iagentodexfileexists = iagentodexfile.exists();
+		 boolean iagentfileexists = iagentfile.exists();
 		 boolean iqmsdexists = iqmsdfile.exists();
 		 boolean libiqfileexists = libiqfile.exists();
 		 boolean libiqservicefileexists = libiqservicefile.exists();
@@ -106,6 +114,7 @@ public class Main extends Activity {
 		 
 		 //Tmobile non embedded APK
 		 boolean tmobiledataexists = tmobiledata.exists();
+		 boolean iqagentdataexists = iqagentdata.exists();
 		 boolean libiq_service_tmobileexists = libiq_service_tmobile.exists();
 		 boolean IQtmobilereleasev11exists = IQtmobilereleasev11.exists();
 		 
@@ -114,8 +123,9 @@ public class Main extends Activity {
 		 txtoutput.append("Phone Model: (ro.product.name): "+ FileTools.doStandardCommand("getprop ro.product.name"));
 		 txtoutput.append("CarrierID: (ro.cid): "+ FileTools.doStandardCommand("getprop ro.cid"));
 		 
-		 if ((iqprofileexists) || (tmobiledataexists) || (libiq_service_tmobileexists) || (IQtmobilereleasev11exists) || (iqfdexists) || (iqdexists) || (pmemciqexists) || (iqmsdexists) || (libciqfileexists) || (libciqhtcfileexists) || (libiqfileexists) || (libiqservicefileexists) || (libciqagentfileexists)
-				 || (HtcIQAgentfileexists) || (HtcIQAgentodexfileexists) || (IQRDfileexists) || (IQRDodexfileexists) || (appcacheiqserverexists))
+		 if ((iqprofileexists) || (tmobiledataexists) || (iqagentdataexists) || (iagentodexfileexists) || (iagentfileexists) || (libiq_service_tmobileexists) || (IQtmobilereleasev11exists) || (iqfdexists) || (iqdexists) || (pmemciqexists) || (iqmsdexists) || 
+				 (libciqfileexists) || (libciqhtcfileexists) || (libiqfileexists) || (libiqservicefileexists) || (libciqagentfileexists) || (HtcIQAgentfileexists) || (HtcIQAgentodexfileexists) || 
+				 (IQRDfileexists) || (IQRDodexfileexists) || (appcacheiqserverexists))
 		 {
 			txtoutput.append("\nCIQ FOUND! File List--\n ");
 			if (HtcIQAgentfileexists) {txtoutput.append(HtcIQAgentfile.toString() + " exists!\n");};
@@ -123,6 +133,8 @@ public class Main extends Activity {
 			if (IQRDfileexists) {txtoutput.append(IQRDfile.toString() + " exists!\n");};
 			if (IQRDodexfileexists) {txtoutput.append(IQRDodexfile.toString() + " exists!\n");};
 			if (iqfdexists) {txtoutput.append(iqfdfile.toString() + " exists!\n");};
+			if (iagentfileexists) {txtoutput.append(iagentfile.toString() + " exists!\n");};
+			if (iagentodexfileexists) {txtoutput.append(iagentodexfile.toString() + " exists!\n");};
 			if (iqdexists) {txtoutput.append(iqdfile.toString() + " exists!\n");};
 			if (iqmsdexists) {txtoutput.append(iqmsdfile.toString() + " exists!\n");};
 			if (libciqfileexists) {txtoutput.append(libciqfile.toString() + " exists!\n");};
@@ -138,6 +150,7 @@ public class Main extends Activity {
 			//possible profile locs
 			if (iqprofileexists) {txtoutput.append(iqprofile.toString() + " exists! May be a stock profile...\n");};
 			if (tmobiledataexists) {txtoutput.append(tmobiledata.toString() + " exists.  Archive.img likely here!\n");};
+			if (iqagentdataexists) {txtoutput.append(iqagentdata.toString() + " exists.  Archive.img likely here!\n");};
 			if (pmemciqexists) {txtoutput.append(pmemciq.toString() + " exists. Whats in these?\n");};;
 			if (pmemciq1exists) {txtoutput.append(pmemciq1.toString() + " exists.\n");};
 			if (pmemciq2exists) {txtoutput.append(pmemciq2.toString() + " exists.\n");};
@@ -159,10 +172,11 @@ public class Main extends Activity {
 		copyprotosd.setOnClickListener(new View.OnClickListener() {
 		public void onClick(View view){
 			EditText txtoutput = (EditText) findViewById(R.id.output);
-			
 		    //find what to copy
 			File tmobarchive=new File("/data/data/com.carrieriq.tmobile/app_iq_archive/archive.img");
 			boolean tmobarchvepresent = tmobarchive.exists();	
+			File iqagentarchive=new File("/data/data/com.carrieriq.iqagent/app_iq_archive/archive.img");
+			boolean iqagentarchivepresent = iqagentarchive.exists();	
 			File evoprofile=new File("/system/etc/iqprofile.pro");
 			boolean evoprofilepresent = evoprofile.exists();	
 			//TODO: Add in busybox search result with a regext or something.
@@ -172,12 +186,17 @@ public class Main extends Activity {
 			if(evoprofilepresent){
 				FileTools.doStandardCommand("toolbox cat /system/etc/iqprofile.pro >/sdcard/IQTool_Sprint_Evo_System.pro");	
 			}
+			if(iqagentarchivepresent) {
+				FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.iqagent/app_iq_archive/archive.img >/sdcard/IQTool_CIQ_Archive.img");
+			}
 			if(tmobarchvepresent) {
 				FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_Tmo_CIQ_Archive.img");
 			}
 			//check files made it
 			File sdtmobarchive=new File("/sdcard/IQTool_Tmo_CIQ_Archive.img");
 			boolean sdtmobarchvepresent = sdtmobarchive.exists();	
+			File sdiqarchive=new File("/sdcard/IQTool_CIQ_Archive.img");
+			boolean sdiqarchvepresent = sdiqarchive.exists();	
 			File sdevoprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
 			boolean sdevoprofilepresent = sdevoprofile.exists();	
 			
@@ -185,12 +204,16 @@ public class Main extends Activity {
 				Toast.makeText(getBaseContext(), "Tmobile archive copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
 				txtoutput.append("\narchive.img copied to\n/sdcard/IQTool_Tmo_CIQ_Archive.img\nThis archive could contain sensitive data, including location and call history, URLs, or text messages.\nDo not send it to EFF if there may be private information on this handset.");
 			}
+			if(sdiqarchvepresent) {
+				Toast.makeText(getBaseContext(), "IQ archive copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
+				txtoutput.append("\narchive.img copied to\n/sdcard/IQTool_CIQ_Archive.img\nThis archive could contain sensitive data, including location and call history, URLs, or text messages.\nDo not send it to EFF if there may be private information on this handset.");
+			}
 			if(sdevoprofilepresent){
 				Toast.makeText(getBaseContext(), "Evo Sprint system pro copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
 				txtoutput.append("\niqprofile.pro copied to\n/sdcard/IQTool_Sprint_Evo_System.pro\n");
 			}
 				
-			if ((!sdtmobarchvepresent) && (!sdevoprofilepresent)){
+			if ((!sdtmobarchvepresent) && (!sdevoprofilepresent) && (sdiqarchvepresent)){
 				Toast.makeText(getBaseContext(), "Error Copying files :(",Toast.LENGTH_LONG).show(); 
 				txtoutput.append("\nError Copying files.  Do not report this to EFF.");
 			}
@@ -210,6 +233,8 @@ public class Main extends Activity {
 			//look for profiles user copied to attach
 			File tmobarchive=new File("/sdcard/IQTool_Tmo_CIQ_Archive.img");
 			boolean tmobarchvepresent = tmobarchive.exists();	
+			File sdiqarchive=new File("/sdcard/IQTool_CIQ_Archive.img");
+			boolean sdiqarchvepresent = sdiqarchive.exists();	
 			File sprintsysprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
 			boolean sprintsysprofilepresent = sprintsysprofile.exists();	
 
@@ -217,7 +242,10 @@ public class Main extends Activity {
 			if(tmobarchvepresent) {
 				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Tmo_CIQ_Archive.img"));
-			} if(sprintsysprofilepresent){
+			}	if(sdiqarchvepresent) {
+				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_CIQ_Archive.img"));
+			}  if(sprintsysprofilepresent){
 				Toast.makeText(getBaseContext(), "Attached Sprint Evo System Profile!",Toast.LENGTH_LONG).show();
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Sprint_Evo_System.pro"));
 			}
@@ -258,6 +286,15 @@ private class scanProfiles extends AsyncTask<String,String,String>{
 					output.append("\nProfile List.  You will need to manually attach anything found (ignore permission denied)\n");
 					output.append(prosearchreturn); }
 			} else { output.append("\nNo Root Cannot Search\n"); };
+			
+			//IQAgent Search (no root)
+			File iqarchive=new File("/data/data/com.carrieriq.iqagent/app_iq_archive/archive.img");
+			boolean iqarchvepresent = iqarchive.exists();	
+			output.append("\n\n");
+			if (iqarchvepresent){
+				output.append("\nIQ Archive Found:\n");
+				output.append(iqarchive.toString());
+			} else { output.append("\nIQ archive NOT Found\n");};
 			
 			
 			//Tmobile search (no root)
