@@ -72,7 +72,7 @@ public class Main extends Activity {
 		boolean busyboxxbinexist = busyboxxbin.exists();
 		File busyboxbin=new File("/system/bin/busybox");
 		boolean busyboxbinexist = busyboxbin.exists();
-		if ((!busyboxxbinexist) || (!busyboxbinexist)){
+		if ((!busyboxxbinexist) && (!busyboxbinexist)){
 			Toast.makeText(getBaseContext(), "You do not have busybox! Searching will not work",Toast.LENGTH_LONG).show();
 			//TODO: Add Busybox Copy code here
 		}
