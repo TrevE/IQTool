@@ -1,17 +1,12 @@
 package com.treve.iqtool;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -163,16 +158,19 @@ public class Main extends Activity {
 			sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"iqiq@eff.org"}); 
 			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "IQIQ Profile");
 			
-			//TODO: Fix attachments to work for root users profiles
-	
-			//Attach Tmobile Archive.img
-			File tmobarchive=new File("/sdcard/IQTool_CarrierIQ_Archive.img");
+			
+			File tmobarchive=new File("/sdcard/IQTool_Tmo_CIQ_Archive.img");
 			boolean tmobarchvepresent = tmobarchive.exists();	
+			File sprintsysprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
+			boolean sprintsysprofilepresent = sprintsysprofile.exists();	
+
+			//Attach Profiles
 			if(tmobarchvepresent) {
 				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
-				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_CarrierIQ_Archive.img"));
-			} else {
-				Toast.makeText(getBaseContext(), "Attach a profile to this report or it is worthless to report!",Toast.LENGTH_LONG).show();
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Tmo_CIQ_Archive.img"));
+			} if(sprintsysprofilepresent){
+				Toast.makeText(getBaseContext(), "Attached Sprint Evo System Profile!",Toast.LENGTH_LONG).show();
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Sprint_Evo_System.pro"));
 			}
 			
 			sendIntent.putExtra(Intent.EXTRA_TEXT, txtoutput.getText().toString()); 
@@ -185,27 +183,41 @@ public class Main extends Activity {
 		public void onClick(View view){
 			EditText txtoutput = (EditText) findViewById(R.id.output);
 			
+		    //find what to copy
 			File tmobarchive=new File("/data/data/com.carrieriq.tmobile/app_iq_archive/archive.img");
 			boolean tmobarchvepresent = tmobarchive.exists();	
-			if(tmobarchvepresent) {
-				
-				//why is there no cp in toolbox :|
-				FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_CarrierIQ_Archive.img");
-				
-				//check file made it
-				File sdtmobarchive=new File("/sdcard/IQTool_CarrierIQ_Archive.img");
-				boolean sdtmobarchvepresent = sdtmobarchive.exists();	
-				if(sdtmobarchvepresent) {
-					Toast.makeText(getBaseContext(), "Tmobile archive copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
-					txtoutput.append("\narchive.img copied to\n/sdcard/IQTool_CarrierIQ_Archive.img\nThis could contain sensitive data, make sure to delete it later\nOnly send to EFF if you are comfortable with this!");
-				} else{ 
-					Toast.makeText(getBaseContext(), "Error Copying tmobile archive :(",Toast.LENGTH_LONG).show(); 
-					txtoutput.append("\nError Copying Archive.img \nSource:\n/data/data/com.carrieriq.tmobile/app_iq_archive/archive.img\n\nDestination:\n/sdcard/IQTool_CarrierIQ_Archive.img");
-				}
-					
-			} else {
-				Toast.makeText(getBaseContext(), "No tmobile archive found",Toast.LENGTH_LONG).show();
+			File evoprofile=new File("/system/etc/iqprofile.pro");
+			boolean evoprofilepresent = evoprofile.exists();	
+			//TODO: Add in busybox search result with a regext or something.
+			
+			//copy stuff
+			//why is there no cp in toolbox :|
+			if(evoprofilepresent){
+				FileTools.doStandardCommand("toolbox cat /system/etc/iqprofile.pro >/sdcard/IQTool_Sprint_Evo_System.pro");	
 			}
+			if(tmobarchvepresent) {
+				FileTools.doStandardCommand("toolbox cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_Tmo_CIQ_Archive.img");
+			}
+			//check files made it
+			File sdtmobarchive=new File("/sdcard/IQTool_Tmo_CIQ_Archive.img");
+			boolean sdtmobarchvepresent = sdtmobarchive.exists();	
+			File sdevoprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
+			boolean sdevoprofilepresent = sdevoprofile.exists();	
+			
+			if(sdtmobarchvepresent) {
+				Toast.makeText(getBaseContext(), "Tmobile archive copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
+				txtoutput.append("\narchive.img copied to\n/sdcard/IQTool_Tmo_CIQ_Archive.img\nThis could contain sensitive data, make sure to delete it later\nOnly send to EFF if you are comfortable with this!");
+			}
+			if(sdevoprofilepresent){
+				Toast.makeText(getBaseContext(), "Evo Sprint system pro copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
+				txtoutput.append("\niqprofile.pro copied to\n/sdcard/IQTool_Sprint_Evo_System.pro\n");
+			}
+				
+			if ((!sdtmobarchvepresent) && (!sdevoprofilepresent)){
+				Toast.makeText(getBaseContext(), "Error Copying files :(",Toast.LENGTH_LONG).show(); 
+				txtoutput.append("\nError Copying files.  Do not report this to EFF.");
+			}
+				
 		}});
 		
     }
