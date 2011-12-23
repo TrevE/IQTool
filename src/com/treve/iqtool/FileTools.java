@@ -44,13 +44,14 @@ try {
 		output.append(buf, 0, read);
 	}
 	proc.waitFor();
-} catch (Exception e) {
-	return e.getMessage();
-}
+
  	if ((output.toString() == "") || (output.length() == 2 ) || (output.toString() == null) || (output.toString() == "  ")|| (output.toString() == "\n")|| (output.toString() == "\n\n")|| (output.toString() == " \n")){
  		return("Empty\n");
  		}
-return string;
+return output.toString();
+} catch (Exception e) {
+	return e.getMessage();
+}
 }
 
 
