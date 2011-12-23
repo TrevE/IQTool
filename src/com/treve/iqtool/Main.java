@@ -85,7 +85,7 @@ public class Main extends Activity {
 		 boolean libiqfileexists = libiqfile.exists();
 		 boolean libiqservicefileexists = libiqservicefile.exists();
 		 
-		 //HTC
+		 //HTC Embedded
 		 boolean iqprofileexists = iqprofile.exists();
 		 boolean iqfdexists = iqfdfile.exists();
 		 boolean iqdexists = iqdfile.exists();
@@ -104,11 +104,12 @@ public class Main extends Activity {
 		 boolean pmemciq2exists = pmemciq2.exists();
 		 boolean pmemciq3exists = pmemciq3.exists();
 		 
-		 //Tmo
+		 //Tmobile non embedded APK
 		 boolean tmobiledataexists = tmobiledata.exists();
 		 boolean libiq_service_tmobileexists = libiq_service_tmobile.exists();
 		 boolean IQtmobilereleasev11exists = IQtmobilereleasev11.exists();
 		 
+		 //EFF Wanted specs on model / where profile found / network, so here it is
 		 txtoutput.setText("Phone Specs--\n");
 		 txtoutput.append("Phone Model: (ro.product.name): "+ FileTools.doStandardCommand("getprop ro.product.name"));
 		 txtoutput.append("CarrierID: (ro.cid): "+ FileTools.doStandardCommand("getprop ro.cid"));
@@ -134,7 +135,7 @@ public class Main extends Activity {
 			if (appcacheiqserverexists) {txtoutput.append(appcacheiqserver.toString() + " exists!\n");};
 			if(FileTools.hasRootPermission()){if ((appcacheciqls != "Empty\n") && (appcacheciqexists)){txtoutput.append("/app-cache/ciq/" + appcacheciq.toString() + " exists!\n");};}
 
-			//possible profiles
+			//possible profile locs
 			if (iqprofileexists) {txtoutput.append(iqprofile.toString() + " exists! May be a stock profile...\n");};
 			if (tmobiledataexists) {txtoutput.append(tmobiledata.toString() + " exists.  Archive.img likely here!\n");};
 			if (pmemciqexists) {txtoutput.append(pmemciq.toString() + " exists. Whats in these?\n");};;
@@ -147,44 +148,14 @@ public class Main extends Activity {
 		
 		
 		
-		/** Setup Button 2 to search for profiles */
+		/** Setup Button 2 to async search for profiles */
 		findpro.setOnClickListener(new View.OnClickListener() {
 		public void onClick(View view){
 			scanProfiles();
 		}});
 		
 		
-		
-		/** Setup Button 3 to Send profiles **/ 
-		emaileff.setOnClickListener(new View.OnClickListener() {
-		public void onClick(View view){
-			EditText txtoutput = (EditText) findViewById(R.id.output);
-			Intent sendIntent = new Intent(Intent.ACTION_SEND);
-			sendIntent.setType("*/*");
-			sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"iqiq@eff.org"}); 
-			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "IQIQ Profile");
-			
-			//look for profiles user copied to attach
-			File tmobarchive=new File("/sdcard/IQTool_Tmo_CIQ_Archive.img");
-			boolean tmobarchvepresent = tmobarchive.exists();	
-			File sprintsysprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
-			boolean sprintsysprofilepresent = sprintsysprofile.exists();	
-
-			//Attach Profiles
-			if(tmobarchvepresent) {
-				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
-				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Tmo_CIQ_Archive.img"));
-			} if(sprintsysprofilepresent){
-				Toast.makeText(getBaseContext(), "Attached Sprint Evo System Profile!",Toast.LENGTH_LONG).show();
-				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Sprint_Evo_System.pro"));
-			}
-			
-			sendIntent.putExtra(Intent.EXTRA_TEXT, txtoutput.getText().toString()); 
-			startActivity(Intent.createChooser(sendIntent, "Email:"));
-		}});
-		
-		
-		/** copyprotosd **/
+		/** Step 3 - Copy found profiles to SDCard **/
 		copyprotosd.setOnClickListener(new View.OnClickListener() {
 		public void onClick(View view){
 			EditText txtoutput = (EditText) findViewById(R.id.output);
@@ -225,6 +196,36 @@ public class Main extends Activity {
 			}
 				
 		}});
+		
+		
+		/** Setup Button 4 to Send Email with profiles **/ 
+		emaileff.setOnClickListener(new View.OnClickListener() {
+		public void onClick(View view){
+			EditText txtoutput = (EditText) findViewById(R.id.output);
+			Intent sendIntent = new Intent(Intent.ACTION_SEND);
+			sendIntent.setType("*/*");
+			sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"iqiq@eff.org"}); 
+			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "IQIQ Profile");
+			
+			//look for profiles user copied to attach
+			File tmobarchive=new File("/sdcard/IQTool_Tmo_CIQ_Archive.img");
+			boolean tmobarchvepresent = tmobarchive.exists();	
+			File sprintsysprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
+			boolean sprintsysprofilepresent = sprintsysprofile.exists();	
+
+			//Attach Profiles, use warning if archive.img
+			if(tmobarchvepresent) {
+				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Tmo_CIQ_Archive.img"));
+			} if(sprintsysprofilepresent){
+				Toast.makeText(getBaseContext(), "Attached Sprint Evo System Profile!",Toast.LENGTH_LONG).show();
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Sprint_Evo_System.pro"));
+			}
+			
+			sendIntent.putExtra(Intent.EXTRA_TEXT, txtoutput.getText().toString()); 
+			startActivity(Intent.createChooser(sendIntent, "Email:"));
+		}});
+		
 		
     }
 
