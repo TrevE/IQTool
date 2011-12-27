@@ -219,8 +219,7 @@ public class Main extends Activity {
 			boolean sdtmobarchvepresent = sdtmobarchive.exists();	
 			File sdiqarchive=new File("/sdcard/IQTool_CIQ_Archive.img");
 			boolean sdiqarchvepresent = sdiqarchive.exists();	
-
-			File sdattarchive=new File("/sdcard/IQTool_CIQ_Archive.img");
+			File sdattarchive=new File("/sdcard/IQTool_ATT_CIQ_Archive.img");
 			boolean sdattarchvepresent = sdattarchive.exists();	
 			File sdevoprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
 			boolean sdevoprofilepresent = sdevoprofile.exists();	
@@ -264,6 +263,8 @@ public class Main extends Activity {
 			boolean tmobarchvepresent = tmobarchive.exists();	
 			File sdiqarchive=new File("/sdcard/IQTool_CIQ_Archive.img");
 			boolean sdiqarchvepresent = sdiqarchive.exists();	
+			File sdattarchive=new File("/sdcard/IQTool_ATT_CIQ_Archive.img");
+			boolean sdattarchvepresent = sdattarchive.exists();	
 			File sprintsysprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
 			boolean sprintsysprofilepresent = sprintsysprofile.exists();	
 
@@ -271,10 +272,17 @@ public class Main extends Activity {
 			if(tmobarchvepresent) {
 				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Tmo_CIQ_Archive.img"));
-			}	if(sdiqarchvepresent) {
+			}	
+			if(sdiqarchvepresent) {
 				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_CIQ_Archive.img"));
-			}  if(sprintsysprofilepresent){
+			}	
+			if(sdattarchvepresent) {
+				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_ATT_CIQ_Archive.img"));
+			} 
+			
+			if(sprintsysprofilepresent){
 				Toast.makeText(getBaseContext(), "Attached Sprint Evo System Profile!",Toast.LENGTH_LONG).show();
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Sprint_Evo_System.pro"));
 			}
