@@ -333,6 +333,16 @@ private class scanProfiles extends AsyncTask<String,String,String>{
 				output.append(iqarchive.toString());
 			} else { output.append("\nIQ archive NOT Found\n");};
 			
+
+			//ATT IQAgent Search (no root)
+			File attiqarchive=new File("/data/data/com.carrieriq.attrom/iq_archive/archive.img");
+			boolean attiqarchvepresent = attiqarchive.exists();	
+			output.append("\n\n");
+			if (iqarchvepresent){
+				output.append("\nATT IQ Archive Found:\n");
+				output.append(iqarchive.toString());
+			} else { output.append("\nATT IQ archive NOT Found\n");};
+			
 			
 			//Tmobile search (no root)
 			File tmobarchive=new File("/data/data/com.carrieriq.tmobile/app_iq_archive/archive.img");
