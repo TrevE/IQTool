@@ -338,9 +338,9 @@ private class scanProfiles extends AsyncTask<String,String,String>{
 			File attiqarchive=new File("/data/data/com.carrieriq.attrom/iq_archive/archive.img");
 			boolean attiqarchvepresent = attiqarchive.exists();	
 			output.append("\n\n");
-			if (iqarchvepresent){
+			if (attiqarchvepresent){
 				output.append("\nATT IQ Archive Found:\n");
-				output.append(iqarchive.toString());
+				output.append(attiqarchive.toString());
 			} else { output.append("\nATT IQ archive NOT Found\n");};
 			
 			
