@@ -41,7 +41,9 @@ public class Main extends Activity {
 		final File libiq_service_tmobile=new File("/system/lib/libiq_service_tmobile_2.2.so");
 		final File tmobiledata=new File("/data/data/com.carrieriq.tmobile/");
 		final File IQtmobilereleasev11=new File("/system/app/IQ-tmobile-release-v1.1.apk");
+		final File IQtmobilezipreleasev11=new File("/system/app/IQ-tmobile-release-signed-zipaligned-v1.1.apk");
 		
+		//IQ-tmobile-release-signed-zipaligned-v1.1.apk
 		//ATT
 		final File ATTIQAgentfile=new File("/system/app/IQ-ota-release.apk");
 		final File attdata=new File("/data/data/com.carrieriq.attrom/");
@@ -98,12 +100,9 @@ public class Main extends Activity {
 		 boolean libiqservicefileexists = libiqservicefile.exists();
 		 
 		 //ATT
-
 		 boolean ATTIQAgentfileexists = ATTIQAgentfile.exists();
-
 		 boolean attdataexists = attdata.exists();
 		 
-		 //attdata
 		 
 		 //HTC Embedded
 		 boolean iqprofileexists = iqprofile.exists();
@@ -129,12 +128,17 @@ public class Main extends Activity {
 		 boolean iqagentdataexists = iqagentdata.exists();
 		 boolean libiq_service_tmobileexists = libiq_service_tmobile.exists();
 		 boolean IQtmobilereleasev11exists = IQtmobilereleasev11.exists();
+		 boolean IQtmobilezipreleasev11exists = IQtmobilezipreleasev11.exists();
 		 
+		 
+		 //IQtmobilezipreleasev11
 		 //EFF Wanted specs on model / where profile found / network, so here it is
 		 txtoutput.setText("Phone Specs--\n");
 		 txtoutput.append("Phone Model: (ro.product.name): "+ FileTools.doStandardCommand("getprop ro.product.name"));
-		 txtoutput.append("CarrierID: (ro.cid): "+ FileTools.doStandardCommand("getprop ro.cid"));
-		 
+		 txtoutput.append("CarrierID: (ro.cid): "+ FileTools.doStandardCommand("getprop ro.cid")); 
+		 txtoutput.append("Operator Alpha Tag: (gsm.operator.alpha): "+ FileTools.doStandardCommand("getprop gsm.operator.alpha"));
+		 txtoutput.append("Operator Alpha Tag2: (gsm.sim.operator.alpha): "+ FileTools.doStandardCommand("getprop gsm.sim.operator.alpha"));
+		  
 		 if ((iqprofileexists) || (ATTIQAgentfileexists) || (attdataexists) || (tmobiledataexists) || (iqagentdataexists) || (iagentodexfileexists) || (iagentfileexists) || (libiq_service_tmobileexists) || (IQtmobilereleasev11exists) || (iqfdexists) || (iqdexists) || (pmemciqexists) || (iqmsdexists) || 
 				 (libciqfileexists) || (libciqhtcfileexists) || (libiqfileexists) || (libiqservicefileexists) || (libciqagentfileexists) || (HtcIQAgentfileexists) || (HtcIQAgentodexfileexists) || 
 				 (IQRDfileexists) || (IQRDodexfileexists) || (appcacheiqserverexists))
@@ -160,6 +164,7 @@ public class Main extends Activity {
 			if (libciqagentfileexists) {txtoutput.append(libciqagentfile.toString() + " exists!\n");};
 			if (libiq_service_tmobileexists) {txtoutput.append(libiq_service_tmobile.toString() + " exists!\n");};
 			if (IQtmobilereleasev11exists) {txtoutput.append(IQtmobilereleasev11.toString() + " exists!\n");};
+			if (IQtmobilezipreleasev11exists) {txtoutput.append(IQtmobilezipreleasev11.toString() + " exists!\n");};
 			if (appcacheiqserverexists) {txtoutput.append(appcacheiqserver.toString() + " exists!\n");};
 			if(FileTools.hasRootPermission()){if ((appcacheciqls != "Empty\n") && (appcacheciqexists)){txtoutput.append("/app-cache/ciq/" + appcacheciq.toString() + " exists!\n");};}
 
