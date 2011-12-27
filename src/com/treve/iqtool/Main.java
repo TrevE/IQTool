@@ -71,16 +71,15 @@ public class Main extends Activity {
 			Toast.makeText(getBaseContext(), "Switching to non root mode....",Toast.LENGTH_LONG).show();
 		} else {
 			Toast.makeText(getBaseContext(), "You are rooted, using full capabilities....",Toast.LENGTH_LONG).show();
-		}
-		
-		/** Check Busybox */
-		File busyboxxbin=new File("/system/xbin/busybox");
-		boolean busyboxxbinexist = busyboxxbin.exists();
-		File busyboxbin=new File("/system/bin/busybox");
-		boolean busyboxbinexist = busyboxbin.exists();
-		if ((!busyboxxbinexist) && (!busyboxbinexist)){
-			Toast.makeText(getBaseContext(), "You do not have busybox! Searching will not work",Toast.LENGTH_LONG).show();
-			//TODO: Add Busybox Copy code here
+			/** Check Busybox */
+			File busyboxxbin=new File("/system/xbin/busybox");
+			boolean busyboxxbinexist = busyboxxbin.exists();
+			File busyboxbin=new File("/system/bin/busybox");
+			boolean busyboxbinexist = busyboxbin.exists();
+			if ((!busyboxxbinexist) && (!busyboxbinexist)){
+				Toast.makeText(getBaseContext(), "You do not have busybox! Searching will not work",Toast.LENGTH_LONG).show();
+				//TODO: Add Busybox Copy code here
+			}
 		}
 		
 		 
@@ -97,6 +96,7 @@ public class Main extends Activity {
 		boolean iqmsdexists = iqmsdfile.exists();
 		boolean libiqfileexists = libiqfile.exists();
 		boolean libiqservicefileexists = libiqservicefile.exists();
+		boolean iqagentdataexists = iqagentdata.exists();
 		 
 		//ATT
 		boolean ATTIQAgentfileexists = ATTIQAgentfile.exists();
@@ -104,16 +104,16 @@ public class Main extends Activity {
 		 
 		 
 		//HTC Embedded
+		boolean IQRDfileexists = IQRDfile.exists();
+		boolean IQRDodexfileexists = IQRDodexfile.exists();
+		boolean HtcIQAgentfileexists = HtcIQAgentfile.exists();
+		boolean HtcIQAgentodexfileexists = HtcIQAgentodexfile.exists();
 		boolean iqprofileexists = iqprofile.exists();
 		boolean iqfdexists = iqfdfile.exists();
 		boolean iqdexists = iqdfile.exists();
 		boolean libciqfileexists = libciqfile.exists();
 		boolean libciqhtcfileexists = libciqhtcfile.exists();
 		boolean libciqagentfileexists = libciqagentfile.exists();
-		boolean HtcIQAgentfileexists = HtcIQAgentfile.exists();
-		boolean HtcIQAgentodexfileexists = HtcIQAgentodexfile.exists();
-		boolean IQRDfileexists = IQRDfile.exists();
-		boolean IQRDodexfileexists = IQRDodexfile.exists();
 		String appcacheciqls = FileTools.doRootCommand("ls /app-cache/ciq/");
 		boolean appcacheciqexists = appcacheciq.exists();
 		boolean appcacheiqserverexists = appcacheiqserver.exists();
@@ -123,13 +123,11 @@ public class Main extends Activity {
 		boolean pmemciq3exists = pmemciq3.exists();
 		 
 		//Tmobile non embedded APK
-		boolean tmobiledataexists = tmobiledata.exists();
-		boolean iqagentdataexists = iqagentdata.exists();
-		boolean libiq_service_tmobileexists = libiq_service_tmobile.exists();
 		boolean IQtmobilereleasev11exists = IQtmobilereleasev11.exists();
 		boolean IQtmobilezipreleasev11exists = IQtmobilezipreleasev11.exists();
-		  
-		//IQtmobilezipreleasev11
+		boolean tmobiledataexists = tmobiledata.exists();
+		boolean libiq_service_tmobileexists = libiq_service_tmobile.exists();
+
 		//EFF Wanted specs on model / where profile found / network, so here it is
 		txtoutput.setText("Phone Specs--\n");
 		txtoutput.append("Phone Model: (ro.product.name): "+ FileTools.doStandardCommand("getprop ro.product.name"));
@@ -142,35 +140,42 @@ public class Main extends Activity {
 			(libciqagentfileexists) || (HtcIQAgentfileexists) || (HtcIQAgentodexfileexists) || (IQRDfileexists) || (IQRDodexfileexists) || (appcacheiqserverexists))
 		 {
 			txtoutput.append("\nCIQ FOUND! File List--\n ");
-			if (HtcIQAgentfileexists) {txtoutput.append(HtcIQAgentfile.toString() + " exists!\n");};
-			if (HtcIQAgentodexfileexists) {txtoutput.append(HtcIQAgentodexfile.toString() + " exists!\n");};
+			
+			//htc
 			if (IQRDfileexists) {txtoutput.append(IQRDfile.toString() + " exists!\n");};
 			if (IQRDodexfileexists) {txtoutput.append(IQRDodexfile.toString() + " exists!\n");};
+			if (HtcIQAgentfileexists) {txtoutput.append(HtcIQAgentfile.toString() + " exists!\n");};
+			if (HtcIQAgentodexfileexists) {txtoutput.append(HtcIQAgentodexfile.toString() + " exists!\n");};
 			if (iqfdexists) {txtoutput.append(iqfdfile.toString() + " exists!\n");};
-			if (iagentfileexists) {txtoutput.append(iagentfile.toString() + " exists!\n");};
-			if (iagentodexfileexists) {txtoutput.append(iagentodexfile.toString() + " exists!\n");};
 			if (iqdexists) {txtoutput.append(iqdfile.toString() + " exists!\n");};
-			if (iqmsdexists) {txtoutput.append(iqmsdfile.toString() + " exists!\n");};
 			if (libciqfileexists) {txtoutput.append(libciqfile.toString() + " exists!\n");};
 			if (libciqhtcfileexists) {txtoutput.append(libciqhtcfile.toString() + " exists!\n");};
+			if (libciqagentfileexists) {txtoutput.append(libciqagentfile.toString() + " exists!\n");};
+			if (appcacheiqserverexists) {txtoutput.append(appcacheiqserver.toString() + " exists!\n");};
+			if(FileTools.hasRootPermission()){if ((appcacheciqls != "Empty\n") && (appcacheciqexists)){txtoutput.append("/app-cache/ciq/" + appcacheciqls.toString() + " exists!\n");};}
+			
+			//samsung and LG
+			if (iagentfileexists) {txtoutput.append(iagentfile.toString() + " exists!\n");};
+			if (iagentodexfileexists) {txtoutput.append(iagentodexfile.toString() + " exists!\n");};
+			if (iqmsdexists) {txtoutput.append(iqmsdfile.toString() + " exists!\n");};
 			if (libiqfileexists) {txtoutput.append(libiqfile.toString() + " exists!\n");};
 			if (libiqservicefileexists) {txtoutput.append(libiqservicefile.toString() + " exists!\n");};
 			
+			//ATT
 			if (ATTIQAgentfileexists) {txtoutput.append(ATTIQAgentfile.toString() + " exists!\n");};
-			//attdataexists
 			
-			if (libciqagentfileexists) {txtoutput.append(libciqagentfile.toString() + " exists!\n");};
-			if (libiq_service_tmobileexists) {txtoutput.append(libiq_service_tmobile.toString() + " exists!\n");};
+			//TMO
 			if (IQtmobilereleasev11exists) {txtoutput.append(IQtmobilereleasev11.toString() + " exists!\n");};
+			if (libiq_service_tmobileexists) {txtoutput.append(libiq_service_tmobile.toString() + " exists!\n");};
 			if (IQtmobilezipreleasev11exists) {txtoutput.append(IQtmobilezipreleasev11.toString() + " exists!\n");};
-			if (appcacheiqserverexists) {txtoutput.append(appcacheiqserver.toString() + " exists!\n");};
-			if(FileTools.hasRootPermission()){if ((appcacheciqls != "Empty\n") && (appcacheciqexists)){txtoutput.append("/app-cache/ciq/" + appcacheciq.toString() + " exists!\n");};}
 
 			//possible profile locs
-			if (iqprofileexists) {txtoutput.append(iqprofile.toString() + " exists! May be a stock profile...\n");};
 			if (tmobiledataexists) {txtoutput.append(tmobiledata.toString() + " exists.  Archive.img likely here!\n");};
 			if (attdataexists) {txtoutput.append(attdata.toString() + " exists!   Archive.img likely here!\n");};
 			if (iqagentdataexists) {txtoutput.append(iqagentdata.toString() + " exists.  Archive.img likely here!\n");};
+			
+			//htc
+			if (iqprofileexists) {txtoutput.append(iqprofile.toString() + " exists! May be a stock profile...\n");};
 			if (pmemciqexists) {txtoutput.append(pmemciq.toString() + " exists. Whats in these?\n");};;
 			if (pmemciq1exists) {txtoutput.append(pmemciq1.toString() + " exists.\n");};
 			if (pmemciq2exists) {txtoutput.append(pmemciq2.toString() + " exists.\n");};
