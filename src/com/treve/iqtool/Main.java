@@ -207,17 +207,33 @@ public class Main extends Activity {
 			
 			//copy stuff
 			//why is there no cp in toolbox :|
-			if(evoprofilepresent){
-				FileTools.doStandardCommand("cat /system/etc/iqprofile.pro >/sdcard/IQTool_Sprint_Evo_System.pro");	
-			}
-			if(iqagentarchivepresent) {
-				FileTools.doStandardCommand("cat /data/data/com.carrieriq.iqagent/iq_archive/archive.img >/sdcard/IQTool_CIQ_Archive.img");
-			}
-			if(attarchivepresent) {
-				FileTools.doStandardCommand("cat /data/data/com.carrieriq.attrom/iq_archive/archive.img >/sdcard/IQTool_ATT_CIQ_Archive.img");
-			}
-			if(tmobarchvepresent) {
-				FileTools.doStandardCommand("cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_Tmo_CIQ_Archive.img");
+			//files might not be world readable.  Lets try as root if possible
+			if(FileTools.hasRootPermission()){
+				if(evoprofilepresent){
+					FileTools.doRootCommand("cat /system/etc/iqprofile.pro >/sdcard/IQTool_Sprint_Evo_System.pro");	
+				}
+				if(iqagentarchivepresent) {
+					FileTools.doRootCommand("cat /data/data/com.carrieriq.iqagent/iq_archive/archive.img >/sdcard/IQTool_CIQ_Archive.img");
+				}
+				if(attarchivepresent) {
+					FileTools.doRootCommand("cat /data/data/com.carrieriq.attrom/iq_archive/archive.img >/sdcard/IQTool_ATT_CIQ_Archive.img");
+				}
+				if(tmobarchvepresent) {
+					FileTools.doRootCommand("cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_Tmo_CIQ_Archive.img");
+				}
+			}else{
+				if(evoprofilepresent){
+					FileTools.doStandardCommand("cat /system/etc/iqprofile.pro >/sdcard/IQTool_Sprint_Evo_System.pro");	
+				}
+				if(iqagentarchivepresent) {
+					FileTools.doStandardCommand("cat /data/data/com.carrieriq.iqagent/iq_archive/archive.img >/sdcard/IQTool_CIQ_Archive.img");
+				}
+				if(attarchivepresent) {
+					FileTools.doStandardCommand("cat /data/data/com.carrieriq.attrom/iq_archive/archive.img >/sdcard/IQTool_ATT_CIQ_Archive.img");
+				}
+				if(tmobarchvepresent) {
+					FileTools.doStandardCommand("cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_Tmo_CIQ_Archive.img");
+				}
 			}
 			
 			//Set SDCard Files
@@ -250,26 +266,10 @@ public class Main extends Activity {
 			
 			//Check if files made it
 			if ((!sdtmobarchvepresent) && (!sdevoprofilepresent) && (!sdiqarchvepresent) && (!sdattarchvepresent)){
-				//files might not be world readable.  Lets try as root if possible
-				if(FileTools.hasRootPermission()){
-					if(evoprofilepresent){
-						FileTools.doRootCommand("cat /system/etc/iqprofile.pro >/sdcard/IQTool_Sprint_Evo_System.pro");	
-					}
-					if(iqagentarchivepresent) {
-						FileTools.doRootCommand("cat /data/data/com.carrieriq.iqagent/iq_archive/archive.img >/sdcard/IQTool_CIQ_Archive.img");
-					}
-					if(attarchivepresent) {
-						FileTools.doRootCommand("cat /data/data/com.carrieriq.attrom/iq_archive/archive.img >/sdcard/IQTool_ATT_CIQ_Archive.img");
-					}
-					if(tmobarchvepresent) {
-						FileTools.doRootCommand("cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_Tmo_CIQ_Archive.img");
-					}
-				}
-			} else {
-			Toast.makeText(getBaseContext(), "Error Copying files :(",Toast.LENGTH_LONG).show(); 
-			txtoutput.append("\nError Copying files.  Do not report this to EFF.");
+				Toast.makeText(getBaseContext(), "Error Copying files :(",Toast.LENGTH_LONG).show(); 
+				txtoutput.append("\nError Copying files.  Do not report this to EFF.");
 			}
-		}});
+			}});
 		
 		
 		/** Setup Button 4 to Send Email with profiles **/ 
