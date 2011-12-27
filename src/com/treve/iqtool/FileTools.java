@@ -18,10 +18,8 @@ public static boolean hasRootPermission() {
             os.writeBytes("exit\n");
             os.flush();             
             process.waitFor();
-            //Log.d(MSG_TAG, "Exit-Value ==> "+process.exitValue());
             if (process.exitValue() != 0) {rooted = false;}
     } catch (Exception e) {
-       // Log.d(MSG_TAG, "Can't obtain root - Here is what I know: "+e.getMessage());
         rooted = false;
     }
     finally {
@@ -63,18 +61,20 @@ try {
 	while ((read=reader.read(buf)) != -1) {
 		output.append(buf, 0, read);
 	}
+	
+	//Wait to finish
 	proc.waitFor();
-    
-	//make sure its not blank
+	} catch (Exception e) { return e.getMessage(); }
+
+	//kill nulls 
  	if ((output.toString() == "") || (output.length() == 2 ) || (output.toString() == null) || (output.toString() == "  ")|| (output.toString() == "\n")|| (output.toString() == "\n\n")|| (output.toString() == " \n")){
  		return("Empty\n");
  	}
  	
- 	//Send output
- 	return output.toString();
-//catch errors
-} catch (Exception e) { return e.getMessage(); }
+	return output.toString();
 }
+
+
 
 
 
@@ -105,13 +105,15 @@ try {
 	while ((read=reader.read(buf)) != -1) {
 		output.append(buf, 0, read);
 	}
+	
+	//Wait to finish
 	proc.waitFor();
-} catch (Exception e) {
-	return e.getMessage();
-}
+	} catch (Exception e) { return e.getMessage(); }
+
+	//kill nulls 
  	if ((output.toString() == "") || (output.length() == 2 ) || (output.toString() == null) || (output.toString() == "  ")|| (output.toString() == "\n")|| (output.toString() == "\n\n")|| (output.toString() == " \n")){
  		return("Empty\n");
- 		}
+ 	}
 	return output.toString();
 }
 

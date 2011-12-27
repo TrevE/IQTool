@@ -38,27 +38,26 @@ public class Main extends Activity {
 		final File iqagentdata=new File("/data/data/com.carrieriq.iqagent/");
 
 		 //TMOBO
-		final File libiq_service_tmobile=new File("/system/lib/libiq_service_tmobile_2.2.so");
-		final File tmobiledata=new File("/data/data/com.carrieriq.tmobile/");
 		final File IQtmobilereleasev11=new File("/system/app/IQ-tmobile-release-v1.1.apk");
 		final File IQtmobilezipreleasev11=new File("/system/app/IQ-tmobile-release-signed-zipaligned-v1.1.apk");
+		final File libiq_service_tmobile=new File("/system/lib/libiq_service_tmobile_2.2.so");
+		final File tmobiledata=new File("/data/data/com.carrieriq.tmobile/");
 		
-		//IQ-tmobile-release-signed-zipaligned-v1.1.apk
 		//ATT
 		final File ATTIQAgentfile=new File("/system/app/IQ-ota-release.apk");
 		final File attdata=new File("/data/data/com.carrieriq.attrom/");
 		
 		 //HTC
+		final File HtcIQAgentfile=new File("/system/app/HtcIQAgent.apk");
+		final File HtcIQAgentodexfile=new File("/system/app/HtcIQAgent.odex");
+		final File IQRDfile=new File("/system/app/IQRD.apk");
+		final File IQRDodexfile=new File("/system/app/IQRD.odex");
 		final File iqfdfile=new File("/system/bin/iqfd");
 		final File iqdfile=new File("/system/bin/iqd");
 		final File libciqfile=new File("/system/lib/libciq_client.so");
 		final File libciqhtcfile=new File("/system/lib/libciq_htc.so");
 		final File libciqagentfile=new File("/system/lib/libhtciqagent.so");
 		final File iqprofile=new File("/system/etc/iqprofile.pro");
-		final File HtcIQAgentfile=new File("/system/app/HtcIQAgent.apk");
-		final File HtcIQAgentodexfile=new File("/system/app/HtcIQAgent.odex");
-		final File IQRDfile=new File("/system/app/IQRD.apk");
-		final File IQRDodexfile=new File("/system/app/IQRD.odex");
 		final File appcacheiqserver=new File("/app-cache/iqserver/");
 		final File appcacheciq=new File("/app-cache/ciq/");
 		final File pmemciq=new File("/dev/pmem_ciq/");
@@ -89,59 +88,58 @@ public class Main extends Activity {
 		checkciq.setOnClickListener(new View.OnClickListener() {
 		public void onClick(View view){
 
-		 EditText txtoutput = (EditText) findViewById(R.id.output);
+		EditText txtoutput = (EditText) findViewById(R.id.output);
 
-	    	//LG Non-Embedded
-			//SAMSUNG Embedded 
-		 boolean iagentodexfileexists = iagentodexfile.exists();
-		 boolean iagentfileexists = iagentfile.exists();
-		 boolean iqmsdexists = iqmsdfile.exists();
-		 boolean libiqfileexists = libiqfile.exists();
-		 boolean libiqservicefileexists = libiqservicefile.exists();
+	    //LG Non-Embedded
+		//SAMSUNG Embedded 
+		boolean iagentodexfileexists = iagentodexfile.exists();
+		boolean iagentfileexists = iagentfile.exists();
+		boolean iqmsdexists = iqmsdfile.exists();
+		boolean libiqfileexists = libiqfile.exists();
+		boolean libiqservicefileexists = libiqservicefile.exists();
 		 
-		 //ATT
-		 boolean ATTIQAgentfileexists = ATTIQAgentfile.exists();
-		 boolean attdataexists = attdata.exists();
-		 
-		 
-		 //HTC Embedded
-		 boolean iqprofileexists = iqprofile.exists();
-		 boolean iqfdexists = iqfdfile.exists();
-		 boolean iqdexists = iqdfile.exists();
-		 boolean libciqfileexists = libciqfile.exists();
-		 boolean libciqhtcfileexists = libciqhtcfile.exists();
-		 boolean libciqagentfileexists = libciqagentfile.exists();
-		 boolean HtcIQAgentfileexists = HtcIQAgentfile.exists();
-		 boolean HtcIQAgentodexfileexists = HtcIQAgentodexfile.exists();
-		 boolean IQRDfileexists = IQRDfile.exists();
-		 boolean IQRDodexfileexists = IQRDodexfile.exists();
-		 String appcacheciqls = FileTools.doRootCommand("ls /app-cache/ciq/");
-		 boolean appcacheciqexists = appcacheciq.exists();
-		 boolean appcacheiqserverexists = appcacheiqserver.exists();
-		 boolean pmemciqexists = pmemciq.exists();
-		 boolean pmemciq1exists = pmemciq1.exists();
-		 boolean pmemciq2exists = pmemciq2.exists();
-		 boolean pmemciq3exists = pmemciq3.exists();
-		 
-		 //Tmobile non embedded APK
-		 boolean tmobiledataexists = tmobiledata.exists();
-		 boolean iqagentdataexists = iqagentdata.exists();
-		 boolean libiq_service_tmobileexists = libiq_service_tmobile.exists();
-		 boolean IQtmobilereleasev11exists = IQtmobilereleasev11.exists();
-		 boolean IQtmobilezipreleasev11exists = IQtmobilezipreleasev11.exists();
+		//ATT
+		boolean ATTIQAgentfileexists = ATTIQAgentfile.exists();
+		boolean attdataexists = attdata.exists();
 		 
 		 
-		 //IQtmobilezipreleasev11
-		 //EFF Wanted specs on model / where profile found / network, so here it is
-		 txtoutput.setText("Phone Specs--\n");
-		 txtoutput.append("Phone Model: (ro.product.name): "+ FileTools.doStandardCommand("getprop ro.product.name"));
-		 txtoutput.append("CarrierID: (ro.cid): "+ FileTools.doStandardCommand("getprop ro.cid")); 
-		 txtoutput.append("Operator Alpha Tag: (gsm.operator.alpha): "+ FileTools.doStandardCommand("getprop gsm.operator.alpha"));
-		 txtoutput.append("Operator Alpha Tag2: (gsm.sim.operator.alpha): "+ FileTools.doStandardCommand("getprop gsm.sim.operator.alpha"));
+		//HTC Embedded
+		boolean iqprofileexists = iqprofile.exists();
+		boolean iqfdexists = iqfdfile.exists();
+		boolean iqdexists = iqdfile.exists();
+		boolean libciqfileexists = libciqfile.exists();
+		boolean libciqhtcfileexists = libciqhtcfile.exists();
+		boolean libciqagentfileexists = libciqagentfile.exists();
+		boolean HtcIQAgentfileexists = HtcIQAgentfile.exists();
+		boolean HtcIQAgentodexfileexists = HtcIQAgentodexfile.exists();
+		boolean IQRDfileexists = IQRDfile.exists();
+		boolean IQRDodexfileexists = IQRDodexfile.exists();
+		String appcacheciqls = FileTools.doRootCommand("ls /app-cache/ciq/");
+		boolean appcacheciqexists = appcacheciq.exists();
+		boolean appcacheiqserverexists = appcacheiqserver.exists();
+		boolean pmemciqexists = pmemciq.exists();
+		boolean pmemciq1exists = pmemciq1.exists();
+		boolean pmemciq2exists = pmemciq2.exists();
+		boolean pmemciq3exists = pmemciq3.exists();
+		 
+		//Tmobile non embedded APK
+		boolean tmobiledataexists = tmobiledata.exists();
+		boolean iqagentdataexists = iqagentdata.exists();
+		boolean libiq_service_tmobileexists = libiq_service_tmobile.exists();
+		boolean IQtmobilereleasev11exists = IQtmobilereleasev11.exists();
+		boolean IQtmobilezipreleasev11exists = IQtmobilezipreleasev11.exists();
 		  
-		 if ((iqprofileexists) || (ATTIQAgentfileexists) || (attdataexists) || (tmobiledataexists) || (iqagentdataexists) || (iagentodexfileexists) || (iagentfileexists) || (libiq_service_tmobileexists) || (IQtmobilereleasev11exists) || (iqfdexists) || (iqdexists) || (pmemciqexists) || (iqmsdexists) || 
-				 (libciqfileexists) || (libciqhtcfileexists) || (libiqfileexists) || (libiqservicefileexists) || (libciqagentfileexists) || (HtcIQAgentfileexists) || (HtcIQAgentodexfileexists) || 
-				 (IQRDfileexists) || (IQRDodexfileexists) || (appcacheiqserverexists))
+		//IQtmobilezipreleasev11
+		//EFF Wanted specs on model / where profile found / network, so here it is
+		txtoutput.setText("Phone Specs--\n");
+		txtoutput.append("Phone Model: (ro.product.name): "+ FileTools.doStandardCommand("getprop ro.product.name"));
+		txtoutput.append("CarrierID: (ro.cid): "+ FileTools.doStandardCommand("getprop ro.cid")); 
+		txtoutput.append("Operator Alpha Tag: (gsm.operator.alpha): "+ FileTools.doStandardCommand("getprop gsm.operator.alpha"));
+		txtoutput.append("Operator Alpha Tag2: (gsm.sim.operator.alpha): "+ FileTools.doStandardCommand("getprop gsm.sim.operator.alpha"));
+		 
+		if ((iqprofileexists) || (ATTIQAgentfileexists) || (attdataexists) || (tmobiledataexists) || (iqagentdataexists) || (iagentodexfileexists) || (iagentfileexists) || (libiq_service_tmobileexists) || 
+			(IQtmobilereleasev11exists) || (iqfdexists) || (iqdexists) || (pmemciqexists) || (iqmsdexists) || (libciqfileexists) || (libciqhtcfileexists) || (libiqfileexists) || (libiqservicefileexists) || 
+			(libciqagentfileexists) || (HtcIQAgentfileexists) || (HtcIQAgentodexfileexists) || (IQRDfileexists) || (IQRDodexfileexists) || (appcacheiqserverexists))
 		 {
 			txtoutput.append("\nCIQ FOUND! File List--\n ");
 			if (HtcIQAgentfileexists) {txtoutput.append(HtcIQAgentfile.toString() + " exists!\n");};
@@ -266,7 +264,7 @@ public class Main extends Activity {
 			
 			//Check if files made it
 			if ((!sdtmobarchvepresent) && (!sdevoprofilepresent) && (!sdiqarchvepresent) && (!sdattarchvepresent)){
-				Toast.makeText(getBaseContext(), "Error Copying files :(",Toast.LENGTH_LONG).show(); 
+				Toast.makeText(getBaseContext(), "Error Copying files. :( Either your SDCard is mounted or files cannot be read (try as root)",Toast.LENGTH_LONG).show(); 
 				txtoutput.append("\nError Copying files.  Do not report this to EFF.");
 			}
 			}});
@@ -304,7 +302,6 @@ public class Main extends Activity {
 				Toast.makeText(getBaseContext(), "Remember, Do not hit the send button if you are uncomfortable sending what (could be) sensitive information to the EFF!",Toast.LENGTH_LONG).show();
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_ATT_CIQ_Archive.img"));
 			} 
-			
 			if(sprintsysprofilepresent){
 				Toast.makeText(getBaseContext(), "Attached Sprint Evo System Profile!",Toast.LENGTH_LONG).show();
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/IQTool_Sprint_Evo_System.pro"));
@@ -313,7 +310,6 @@ public class Main extends Activity {
 			sendIntent.putExtra(Intent.EXTRA_TEXT, txtoutput.getText().toString()); 
 			startActivity(Intent.createChooser(sendIntent, "Email:"));
 		}});
-		
 		
     }
 
