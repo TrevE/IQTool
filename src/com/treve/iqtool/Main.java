@@ -219,7 +219,8 @@ public class Main extends Activity {
 			if(tmobarchvepresent) {
 				FileTools.doStandardCommand("cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_Tmo_CIQ_Archive.img");
 			}
-			//check files made it
+			
+			//Set SDCard Files
 			File sdtmobarchive=new File("/sdcard/IQTool_Tmo_CIQ_Archive.img");
 			boolean sdtmobarchvepresent = sdtmobarchive.exists();	
 			File sdiqarchive=new File("/sdcard/IQTool_CIQ_Archive.img");
@@ -229,6 +230,7 @@ public class Main extends Activity {
 			File sdevoprofile=new File("/sdcard/IQTool_Sprint_Evo_System.pro");
 			boolean sdevoprofilepresent = sdevoprofile.exists();	
 			
+			//Put message up
 			if(sdtmobarchvepresent) {
 				Toast.makeText(getBaseContext(), "Tmobile archive copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
 				txtoutput.append("\narchive.img copied to\n/sdcard/IQTool_Tmo_CIQ_Archive.img\nThis archive could contain sensitive data, including location and call history, URLs, or text messages.\nDo not send it to EFF if there may be private information on this handset.");
@@ -245,12 +247,28 @@ public class Main extends Activity {
 				Toast.makeText(getBaseContext(), "Evo Sprint system pro copied to sdcard.  DELETE THIS LATER!",Toast.LENGTH_LONG).show();
 				txtoutput.append("\niqprofile.pro copied to\n/sdcard/IQTool_Sprint_Evo_System.pro\n");
 			}
-				
-			if ((!sdtmobarchvepresent) && (!sdevoprofilepresent) && (!sdiqarchvepresent)){
-				Toast.makeText(getBaseContext(), "Error Copying files :(",Toast.LENGTH_LONG).show(); 
-				txtoutput.append("\nError Copying files.  Do not report this to EFF.");
+			
+			//Check if files made it
+			if ((!sdtmobarchvepresent) && (!sdevoprofilepresent) && (!sdiqarchvepresent) && (!sdattarchvepresent)){
+				//files might not be world readable.  Lets try as root if possible
+				if(FileTools.hasRootPermission()){
+					if(evoprofilepresent){
+						FileTools.doRootCommand("cat /system/etc/iqprofile.pro >/sdcard/IQTool_Sprint_Evo_System.pro");	
+					}
+					if(iqagentarchivepresent) {
+						FileTools.doRootCommand("cat /data/data/com.carrieriq.iqagent/iq_archive/archive.img >/sdcard/IQTool_CIQ_Archive.img");
+					}
+					if(attarchivepresent) {
+						FileTools.doRootCommand("cat /data/data/com.carrieriq.attrom/iq_archive/archive.img >/sdcard/IQTool_ATT_CIQ_Archive.img");
+					}
+					if(tmobarchvepresent) {
+						FileTools.doRootCommand("cat /data/data/com.carrieriq.tmobile/app_iq_archive/archive.img >/sdcard/IQTool_Tmo_CIQ_Archive.img");
+					}
+				}
+			} else {
+			Toast.makeText(getBaseContext(), "Error Copying files :(",Toast.LENGTH_LONG).show(); 
+			txtoutput.append("\nError Copying files.  Do not report this to EFF.");
 			}
-				
 		}});
 		
 		
